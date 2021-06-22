@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="items.xsd">
+			
+	<collectiontypes>
+	   <collectiontype elementtype="java.lang.String" code="hobbiesCollection" type="list" autocreate="true" generate="true"/>
+	   <collectiontype elementtype="java.lang.String" code="locations" type="list" autocreate="true" generate="false"/>
+	</collectiontypes>	
+	
+	<enumtypes>
+	   <enumtype code="Gender" autocreate="false" generate="true" dynamic="false">
+	      <value code="OTHERS"></value>
+	   </enumtype>
+	   
+	   <enumtype code="ContractorStatus" autocreate="true" generate="true" dynamic="true">
+	       <value code="RUNNING"></value>
+	       <value code="HOLD"></value>
+	       <value code="EXPIRED"></value>
+	   </enumtype>
+	   
+	   <enumtype code="Bonus" autocreate="true" generate="false" >
+	       <value code="ELIGIBLE"></value>
+	       <value code="NOTELIGIBLE"></value>
+	       <value code="NA"></value>
+	   </enumtype>
+	
+	</enumtypes>	
+	
+	<maptypes>
+		<maptype code="yearGradeMap" argumenttype="java.lang.String"
+			returntype="java.lang.String" autocreate="true" generate="false" />
+	</maptypes>
+	
+	<relations>
+	    <relation code="Contractor2ContactInfos" generate="true" localized="false" autocreate="true">
+            <sourceElement type="Contractor" cardinality="one" qualifier="contractor">
+                <modifiers read="true" write="true" search="true" optional="false"/>
+            </sourceElement>
+            <targetElement type="AbstractContactInfo" cardinality="many" qualifier="contactInfos" ordered="true">
+                <modifiers read="true" write="true" search="true" optional="true" />
+            </targetElement>
+        </relation>
+	
+	</relations>
+
+	<itemtypes>
+	
+	 <itemtype code="Contractor"  extends="GenericItem" generate="true" autocreate="true"  >
+	 		<description> Contractors Information</description>
+	 		<deployment table="Contractor" typecode="12001"/>
+	 		
+	 		<attributes>
+	 		  <attribute type="java.lang.Integer" qualifier="contractorID" generate="true" autocreate="true" >
+	 		  	<description>Unique ID of Each Contractor</description>
+	 		  	<persistence type="property"></persistence>
+	 		  	<!-- <modifiers unique="true"/> -->
+	 		  </attribute>
+	 		
+	 		   <attribute type="java.lang.Integer" qualifier="age">
+	 		    <description>Age of Contractor</description>
+	 		    <persistence type="property"></persistence>
+	 		     <model generate="true" ></model>
+	 		     <modifiers  optional="true" read="true" write="true" search="true" removable="true" unique="false" partof="false"
+	 		                encrypted="false" />
+	 		   </attribute>
+	 		   
+	 		   <attribute type="java.lang.String" qualifier="firstName">
+	 		     <description>FirstName of Contractor</description>
+	 		     <persistence type="property"></persistence>
+	 		   </attribute>
+	 		   
+	 		   <attribute type="java.lang.Double" qualifier="avgPay">
+	 		     <description>Defines average Pay of Contractor</description>
+	 		     <persistence type="property"></persistence>
+	 		   </attribute>
+	 		   
+	 		   <attribute qualifier="eligibleForPromotion" type="boolean">
+						<persistence type="property" />
+						<defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
+						<description>Defines is eligibleForPromotion</description>
+			   </attribute>
+			   
+			   <attribute qualifier="hobbies" type="hobbiesCollection">
+						<persistence type="property" />
+						<description>Defines hobbies</description>
+			   </attribute>
+			   
+			    <attribute qualifier="status" type="ContractorStatus">
+						<persistence type="property" />
+						<description>Defines status </description>
+			   </attribute>
+	 			
+	 			<attribute qualifier="grade" type="yearGradeMap">
+						<persistence type="property" />
+						<description>Defines yearly grade of Contractor  </description>
+						<modifiers read="true" write="true"/>
+			   </attribute>
+			   
+			    <attribute type="java.lang.String" qualifier="middleName" generate="true" autocreate="true" >
+			 		  	<description>middle name</description>
+			 		  	<persistence type="property"></persistence>
+			 		  	<modifiers read="true"  write="false"/>
+	 		   </attribute>
+	 		   
+	 		    <attribute type="Bonus" qualifier="bonus" generate="true" autocreate="true" >
+			 		  	<description>Bonus of contractor</description>
+			 		  	<persistence type="property"></persistence>
+			 		  	<modifiers read="false"  write="true"/>
+	 		   </attribute> 
+	 
+	 			
+	 		</attributes>
+	 		
+	 	    <indexes>
+					<index name="contractorIDIndex">
+						<key attribute="contractorID"/>
+					</index>
+		    </indexes>
+	 </itemtype>
+	 
+	 
+<!--
+		<itemtype generate="true"
+		   code="MyProduct"
+		   jaloclass="com.training.jalo.MyProduct"
+		   extends="Product"
+		   autocreate="true"
+	   >
+			<attributes>
+				<attribute qualifier="myExampleInitialStringField" type="java.lang.String">
+					<description>My Example Initial String Value</description>
+					<modifiers initial="true"/>
+					<persistence type="property"/>
+				</attribute>
+
+				<attribute qualifier="myExampleBooleanField" type="java.lang.Boolean">
+					<description>Example Initial Boolean Field</description>
+               <persistence type="property"/>
+				</attribute>
+
+				<attribute qualifier="media" type="Media">
+					<persistence type="property"/>
+				</attribute>
+	            <indexes>
+	            <index name="versionIdx" unique="false">
+	         		<key attribute="catalogVersion"/>
+	         	</index>
+	         	<index name="idVersionIdx" unique="false">
+							<key attribute="id"/>
+							<key attribute="catalogVersion"/>
+					</index>
+				</indexes>
+			</attributes>
+		</itemtype>
+-->
+	</itemtypes>
+</items>
